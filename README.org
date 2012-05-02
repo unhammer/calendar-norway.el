@@ -37,6 +37,3 @@ does.
 
 /I highly recommend [[https://github.com/kiwanami/emacs-calfw][calfw]] if you want a great-looking Emacs calendar
 that works with diary/org-mode/icalendar/howm/etc./
-
-
-# -*- mode: org -*-
