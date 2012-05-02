@@ -1,6 +1,10 @@
 * Norwegian localisation of Emacs Calendar
 
-This is how I use it:
+Based on http://bigwalter.net/daniel/elisp/sv-kalender.el v.1.8 by
+Daniel Jensen.
+** Usage
+Put it somewhere in your =load-path=, then put something like this in
+your =~/.emacs=:
 #+BEGIN_SRC emacs-lisp
   (when (require 'calendar-norway nil 'noerror)
     ;; Localise date format, weekdays, months, lunar/solar names:
@@ -20,8 +24,8 @@ This is how I use it:
           (solar-equinoxes-solstices)))))
 #+END_SRC
 
-But if you just want "red calendar days" and the Norwegian date
-formats, this would be enough:
+If you just want "red calendar days" and the Norwegian date formats,
+the following would be enough:
 #+BEGIN_SRC emacs-lisp
   (when (require 'calendar-norway nil 'noerror)
     ;; Localise date format, weekdays, months, lunar/solar names:
@@ -37,3 +41,6 @@ does.
 
 /I highly recommend [[https://github.com/kiwanami/emacs-calfw][calfw]] if you want a great-looking Emacs calendar
 that works with diary/org-mode/icalendar/howm/etc./
+
+** Bugs 
+Probably. Patches welcome.
