@@ -3,7 +3,7 @@
 ;; Copyright (C) 2012 Kevin Brubeck Unhammer
 
 ;; Author: Kevin Brubeck Unhammer <unhammer@fsfe.org>
-;; Version: 0.1
+;; Version: 0.9
 ;; Keywords: calendar norwegian localization
 
 ;; Based on http://bigwalter.net/daniel/elisp/sv-kalender.el v.1.8
@@ -30,7 +30,23 @@
 
 ;; Norwegian calendar localization.
 
-;; To use, simply (require 'calendar-norway)
+;; Example usage:
+;; (when (require 'calendar-norway nil 'noerror)
+;;   ;; Localise date format, weekdays, months, lunar/solar names:
+;;   (calendar-norway-common-settings)
+;;   (setq calendar-holidays
+;; 	(append
+;; 	 ;; Include days where you don't have to work:
+;; 	 calendar-norway-raude-dagar
+;; 	 ;; Include other days that people celebrate:
+;; 	 calendar-norway-andre-merkedagar
+;; 	 ;; Include daylight savings time:
+;; 	 calendar-norway-dst
+;; 	 ;; And then you can add some non-Norwegian holidays etc. if you like:
+;; 	 '((holiday-fixed 3 17 "St. Patricksdag")
+;; 	   (holiday-fixed 10 31 "Hallowe'en")
+;; 	   (holiday-float 11 4 4 "Thanksgiving")
+;; 	   (solar-equinoxes-solstices)))))
 
 ;;; Code:
 
