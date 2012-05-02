@@ -1,0 +1,42 @@
+* Norwegian localisation of Emacs Calendar
+
+This is how I use it:
+#+BEGIN_SRC emacs-lisp
+  (when (require 'calendar-norway nil 'noerror)
+    ;; Localise date format, weekdays, months, lunar/solar names:
+    (calendar-norway-common-settings)
+    (setq calendar-holidays
+       (append
+        ;; Include days where you don't have to work:
+        calendar-norway-raude-dagar
+        ;; Include other days that people celebrate:
+        calendar-norway-andre-merkedagar
+        ;; Include daylight savings time:
+        calendar-norway-dst
+        ;; And then you can add some non-Norwegian holidays etc. if you like:
+        '((holiday-fixed 3 17 "St. Patricksdag")
+          (holiday-fixed 10 31 "Hallowe'en")
+          (holiday-float 11 4 4 "Thanksgiving")
+          (solar-equinoxes-solstices)))))
+#+END_SRC
+
+But if you just want "red calendar days" and the Norwegian date
+formats, this would be enough:
+#+BEGIN_SRC emacs-lisp
+  (when (require 'calendar-norway nil 'noerror)
+    ;; Localise date format, weekdays, months, lunar/solar names:
+    (calendar-norway-common-settings)
+    ;; Show days where you don't have to work:
+    (setq calendar-holidays calendar-norway-raude-dagar))
+#+END_SRC
+
+Note: the function =calendar-norway-common-settings= changes some
+settings that you may have already touched in your =~/.emacs= (e.g.
+=calendar-date-display-form=), see the function definition for what it
+does.
+
+/I highly recommend [[https://github.com/kiwanami/emacs-calfw][calfw]] if you want a great-looking Emacs calendar
+that works with diary/org-mode/icalendar/howm/etc./
+
+
+# -*- mode: org -*-
