@@ -54,7 +54,9 @@
   "Localise dates, weekdays, months, lunar/solar names, etc.
 to Norwegian."
   (setq calendar-week-start-day 1) 	; måndag som første dag i veka
-  (setq calendar-date-style 'european)	; day/month/year
+  (unless (fboundp 'calendar-set-date-style)
+    (require 'calendar))
+  (calendar-set-date-style 'european)	; day/month/year
   (setq calendar-date-display-form	; «ons. 2. mai 2012»
 	'((if dayname
 	      (concat dayname ", "))
