@@ -188,28 +188,50 @@ to Norwegian."
 	)
       "Høgtider som ikkje er raude kalenderdagar i Noreg.")
 
-(defvar calendar-norway-dst
-  '((if (progn
-	  (require 'cal-dst)
-	  t)
-	(funcall 'holiday-sexp calendar-daylight-savings-starts
-		 '(format "Sommartid byrjar %s"
+(setq solar-holidays
+      '((if (progn
+	      (require 'cal-dst)
+	      t)
+	    (funcall 'holiday-sexp calendar-daylight-savings-starts
+		     '(format "Sommartid börjar %s"
+			      (if
+				  (fboundp 'atan)
+				  (solar-time-string
+				   (/ calendar-daylight-savings-starts-time
+				      (float 60))
+				   calendar-standard-time-zone-name)
+				""))))
+	(funcall 'holiday-sexp calendar-daylight-savings-ends
+		 '(format "Vintertid börjar %s"
 			  (if
 			      (fboundp 'atan)
 			      (solar-time-string
-			       (/ calendar-daylight-savings-starts-time
+			       (/ calendar-daylight-savings-ends-time
 				  (float 60))
-			       calendar-standard-time-zone-name)
-			    ""))))
-    (funcall 'holiday-sexp calendar-daylight-savings-ends
-	     '(format "Vintertid byrjar %s"
-		      (if
-			  (fboundp 'atan)
-			  (solar-time-string
-			   (/ calendar-daylight-savings-ends-time
-			      (float 60))
-			   calendar-daylight-time-zone-name)
-			""))))
+			       calendar-daylight-time-zone-name)
+			    "")))))
+
+(defvar calendar-norway-dst
+  '((when (and (require 'cal-dst nil 'noerror)
+	       (require 'solar nil 'noerror))
+      (funcall 'holiday-sexp
+	       calendar-daylight-savings-starts
+	       '(format "Sommartid byrjar %s"
+			(if (fboundp 'atan)
+			    (solar-time-string (/ calendar-daylight-savings-starts-time
+						  (float 60))
+					       calendar-standard-time-zone-name)
+			  "")))
+      (funcall 'holiday-sexp
+	       calendar-daylight-savings-ends
+	       '(format "Vintertid byrjar %s"
+			(if (fboundp 'atan)
+			    (solar-time-string (/ calendar-daylight-savings-ends-time
+						  (float 60))
+					       calendar-daylight-time-zone-name)
+			  "")))))
   "Solar equinoxes and Daylight Saving Time localised to Norwegian")
+
+
 
 (provide 'calendar-norway)
