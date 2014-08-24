@@ -3,7 +3,7 @@
 ;; Copyright (C) 2012 Kevin Brubeck Unhammer
 
 ;; Author: Kevin Brubeck Unhammer <unhammer@fsfe.org>
-;; Version: 0.9
+;; Version: 0.9.1
 ;; Keywords: calendar norwegian localization
 
 ;; Based on http://bigwalter.net/daniel/elisp/sv-kalender.el v.1.8
@@ -193,7 +193,7 @@ to Norwegian."
 	      (require 'cal-dst)
 	      t)
 	    (funcall 'holiday-sexp calendar-daylight-savings-starts
-		     '(format "Sommartid börjar %s"
+		     '(format "Sommartid byrjar %s"
 			      (if
 				  (fboundp 'atan)
 				  (solar-time-string
@@ -202,7 +202,7 @@ to Norwegian."
 				   calendar-standard-time-zone-name)
 				""))))
 	(funcall 'holiday-sexp calendar-daylight-savings-ends
-		 '(format "Vintertid börjar %s"
+		 '(format "Vintertid byrjar %s"
 			  (if
 			      (fboundp 'atan)
 			      (solar-time-string
