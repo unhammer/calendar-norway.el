@@ -1,9 +1,9 @@
 ;;; calendar-norway.el --- Norwegian calendar for Emacs
 
-;; Copyright (C) 2012 Kevin Brubeck Unhammer
+;; Copyright (C) 2012-2016 Kevin Brubeck Unhammer
 
 ;; Author: Kevin Brubeck Unhammer <unhammer@fsfe.org>
-;; Version: 0.9
+;; Version: 0.9.2
 ;; Keywords: calendar norwegian localization
 
 ;; Based on http://bigwalter.net/daniel/elisp/sv-kalender.el v.1.8
@@ -189,29 +189,6 @@ to Norwegian."
 	(holiday-fixed 12 24 "Julaftan")
 	)
       "Høgtider som ikkje er raude kalenderdagar i Noreg.")
-
-;; (setq holiday-solar-holidays
-;;       '((if (progn
-;; 	      (require 'cal-dst)
-;; 	      t)
-;; 	    (funcall 'holiday-sexp calendar-daylight-savings-starts
-;; 		     '(format "Sommartid byrjar %s"
-;; 			      (if
-;; 				  (fboundp 'atan)
-;; 				  (solar-time-string
-;; 				   (/ calendar-daylight-savings-starts-time
-;; 				      (float 60))
-;; 				   calendar-standard-time-zone-name)
-;; 				""))))
-;; 	(funcall 'holiday-sexp calendar-daylight-savings-ends
-;; 		 '(format "Vintertid byrjar %s"
-;; 			  (if
-;; 			      (fboundp 'atan)
-;; 			      (solar-time-string
-;; 			       (/ calendar-daylight-savings-ends-time
-;; 				  (float 60))
-;; 			       calendar-daylight-time-zone-name)
-;; 			    "")))))
 
 (defvar calendar-norway-dst
   '((when (and (require 'cal-dst nil 'noerror)
