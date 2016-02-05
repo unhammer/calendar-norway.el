@@ -26,7 +26,6 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;; Commentary:
-;;; Kommentarer:
 
 ;; Norwegian calendar localization.
 
@@ -49,40 +48,43 @@
 ;; 	   (solar-equinoxes-solstices)))))
 
 ;;; Code:
+(eval-when-compile
+  (require 'calendar)
+  (require 'solar))
 
 (defun calendar-norway-common-settings ()
   "Localise dates, weekdays, months, lunar/solar names, etc.
 to Norwegian."
-  (setq calendar-week-start-day 1) 	; måndag som første dag i veka
-  (unless (fboundp 'calendar-set-date-style)
-    (require 'calendar))
-  (calendar-set-date-style 'european)	; day/month/year
-  (setq calendar-date-display-form	; «ons. 2. mai 2012»
-	'((if dayname
-	      (concat dayname ", "))
-	  day ". " monthname " " year))
-  (setq calendar-time-display-form	; 24-timars, ingen tidssone
-	'(24-hours ":" minutes))
-  (setq calendar-day-name-array
-	["søndag" "måndag" "tysdag" "onsdag" "torsdag" "fredag" "laurdag"])
-  (setq calendar-month-name-array
-	["januar" "februar" "mars"     "april"   "mai"      "juni"
-	 "juli"    "august"   "september" "oktober" "november" "desember"])
-  
-  (eval-after-load "solar"
+  (eval-after-load 'calendar
+    '(progn
+       (setq calendar-week-start-day 1) 	; måndag som første dag i veka
+       (calendar-set-date-style 'european)	; day/month/year
+       (setq calendar-date-display-form	; «ons. 2. mai 2012»
+             '((if dayname
+                   (concat dayname ", "))
+               day ". " monthname " " year))
+       (setq calendar-time-display-form	; 24-timars, ingen tidssone
+             '(24-hours ":" minutes))
+       (setq calendar-day-name-array
+             ["søndag" "måndag" "tysdag" "onsdag" "torsdag" "fredag" "laurdag"])
+       (setq calendar-month-name-array
+             ["januar" "februar" "mars"     "april"   "mai"      "juni"
+              "juli"    "august"   "september" "oktober" "november" "desember"])))
+
+  (eval-after-load 'solar
     '(setq solar-n-hemi-seasons
 	   '("Vårjamdøgn" "Sommarsolkverv"
 	     "Haustjamdøgn" "Vintersolkverv")))
 
   (defadvice lunar-phase-name (around sv-lunar-phase-name activate)
-    "Månfasernas namn på svenska."
+    "Månefasenamn på norsk."
     (setq ad-return-value
 	  (let ((phase (ad-get-arg 0)))
 	    (cond ((= 0 phase) "Nymåne")
 		  ((= 1 phase) "Månen i ny")
 		  ((= 2 phase) "Fullmåne")
 		  ((= 3 phase) "Månen i ne")))))
-  
+
   (defadvice solar-sunrise-sunset-string (around sv-solar-sunrise-sunset-string
 						 activate)
     "Soloppgang og solnedgang på norsk."
@@ -188,28 +190,28 @@ to Norwegian."
 	)
       "Høgtider som ikkje er raude kalenderdagar i Noreg.")
 
-(setq solar-holidays
-      '((if (progn
-	      (require 'cal-dst)
-	      t)
-	    (funcall 'holiday-sexp calendar-daylight-savings-starts
-		     '(format "Sommartid börjar %s"
-			      (if
-				  (fboundp 'atan)
-				  (solar-time-string
-				   (/ calendar-daylight-savings-starts-time
-				      (float 60))
-				   calendar-standard-time-zone-name)
-				""))))
-	(funcall 'holiday-sexp calendar-daylight-savings-ends
-		 '(format "Vintertid börjar %s"
-			  (if
-			      (fboundp 'atan)
-			      (solar-time-string
-			       (/ calendar-daylight-savings-ends-time
-				  (float 60))
-			       calendar-daylight-time-zone-name)
-			    "")))))
+;; (setq holiday-solar-holidays
+;;       '((if (progn
+;; 	      (require 'cal-dst)
+;; 	      t)
+;; 	    (funcall 'holiday-sexp calendar-daylight-savings-starts
+;; 		     '(format "Sommartid byrjar %s"
+;; 			      (if
+;; 				  (fboundp 'atan)
+;; 				  (solar-time-string
+;; 				   (/ calendar-daylight-savings-starts-time
+;; 				      (float 60))
+;; 				   calendar-standard-time-zone-name)
+;; 				""))))
+;; 	(funcall 'holiday-sexp calendar-daylight-savings-ends
+;; 		 '(format "Vintertid byrjar %s"
+;; 			  (if
+;; 			      (fboundp 'atan)
+;; 			      (solar-time-string
+;; 			       (/ calendar-daylight-savings-ends-time
+;; 				  (float 60))
+;; 			       calendar-daylight-time-zone-name)
+;; 			    "")))))
 
 (defvar calendar-norway-dst
   '((when (and (require 'cal-dst nil 'noerror)
@@ -235,3 +237,4 @@ to Norwegian."
 
 
 (provide 'calendar-norway)
+;;; calendar-norway.el ends here
