@@ -50,6 +50,7 @@
 ;;; Code:
 (eval-when-compile
   (require 'calendar)
+  (require 'holidays)
   (require 'solar))
 
 (defun calendar-norway-common-settings ()
@@ -209,7 +210,7 @@ to Norwegian."
 						  (float 60))
 					       calendar-daylight-time-zone-name)
 			  "")))))
-  "Solar equinoxes and Daylight Saving Time localised to Norwegian")
+  "Solar equinoxes and Daylight Saving Time localised to Norwegian.")
 
 
 

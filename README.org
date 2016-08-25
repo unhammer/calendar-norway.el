@@ -2,7 +2,9 @@
 
 Based on http://bigwalter.net/daniel/elisp/sv-kalender.el v.1.8 by
 Daniel Jensen.
+
 ** Usage
+
 Put it somewhere in your =load-path=, then put something like this in
 your =~/.emacs=:
 #+BEGIN_SRC emacs-lisp
@@ -39,8 +41,9 @@ settings that you may have already touched in your =~/.emacs= (e.g.
 =calendar-date-display-form=), see the function definition for what it
 does.
 
-/I highly recommend [[https://github.com/kiwanami/emacs-calfw][calfw]] if you want a great-looking Emacs calendar
-that works with diary/org-mode/icalendar/howm/etc./
+I highly recommend [[https://github.com/kiwanami/emacs-calfw][calfw]] if you want a great-looking Emacs calendar
+that works with diary/org-mode/icalendar/howm/etc.
 
-** Bugs 
+** Bugs
+
 Probably. Patches welcome.
