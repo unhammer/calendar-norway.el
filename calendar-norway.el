@@ -128,7 +128,7 @@ to Norwegian."
 	(holiday-fixed 12 26 "Annandag jul")
 
         ;; Påske og pinse
-        (filter-visible-calendar-holidays
+        (holiday-filter-visible-calendar
          (mapcar
           (lambda (dag)
             (list (calendar-gregorian-from-absolute
@@ -150,7 +150,7 @@ to Norwegian."
                             6 (calendar-absolute-from-gregorian
                                (list 6 26 displayed-year)))))
           ;; Midsommar
-          (filter-visible-calendar-holidays
+          (holiday-filter-visible-calendar
           (list
            (list
             (calendar-gregorian-from-absolute (1- midsommar-d))
@@ -162,7 +162,7 @@ to Norwegian."
 
 (defvar calendar-norway-andre-merkedagar
       '(;; Meir påske
-        (filter-visible-calendar-holidays
+        (holiday-filter-visible-calendar
          (mapcar
           (lambda (dag)
             (list (calendar-gregorian-from-absolute
