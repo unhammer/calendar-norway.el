@@ -30,78 +30,74 @@
 ;; Norwegian calendar localization.
 
 ;; Example usage:
-;; (when (require 'calendar-norway nil 'noerror)
-;;   ;; Localise date format, weekdays, months, lunar/solar names:
-;;   (calendar-norway-common-settings)
-;;   (setq calendar-holidays
-;; 	(append
-;; 	 ;; Include days where you don't have to work:
-;; 	 calendar-norway-raude-dagar
-;; 	 ;; Include other days that people celebrate:
-;; 	 calendar-norway-andre-merkedagar
-;; 	 ;; Include daylight savings time:
-;; 	 calendar-norway-dst
-;; 	 ;; And then you can add some non-Norwegian holidays etc. if you like:
-;; 	 '((holiday-fixed 3 17 "St. Patricksdag")
-;; 	   (holiday-fixed 10 31 "Hallowe'en")
-;; 	   (holiday-float 11 4 4 "Thanksgiving")
-;; 	   (solar-equinoxes-solstices)))))
+;;  ;; Localises date format, weekdays, months, lunar/solar names:
+;; (require 'calendar-norway)
+;; ;; Set what holidays you want in your calendar:
+;; (setq calendar-holidays
+;;    (append
+;;     ;; Include days where you don't have to work:
+;;     calendar-norway-raude-dagar
+;;     ;; Include other days that people celebrate:
+;;     calendar-norway-andre-merkedagar
+;;     ;; Include daylight savings time:
+;;     calendar-norway-dst
+;;     ;; And then you can add some non-Norwegian holidays etc. if you like:
+;;     '((holiday-fixed 3 17 "St. Patricksdag")
+;;       (holiday-fixed 10 31 "Hallowe'en")
+;;       (holiday-float 11 4 4 "Thanksgiving")
+;;       (solar-equinoxes-solstices))))
 
 ;;; Code:
-(eval-when-compile
-  (require 'calendar)
-  (require 'holidays)
-  (require 'solar))
+(require 'calendar)
+(require 'holidays)
+(require 'solar)
 
-(defun calendar-norway-common-settings ()
-  "Localise dates, weekdays, months, lunar/solar names, etc.
-to Norwegian."
-  (eval-after-load 'calendar
-    '(progn
-       (setq calendar-week-start-day 1) 	; måndag som første dag i veka
-       (calendar-set-date-style 'european)	; day/month/year
-       (setq calendar-date-display-form	; «ons. 2. mai 2012»
-             '((if dayname
-                   (concat dayname ", "))
-               day ". " monthname " " year))
-       (setq calendar-time-display-form	; 24-timars, ingen tidssone
-             '(24-hours ":" minutes))
-       (setq calendar-day-name-array
-             ["søndag" "måndag" "tysdag" "onsdag" "torsdag" "fredag" "laurdag"])
-       (setq calendar-month-name-array
-             ["januar" "februar" "mars"     "april"   "mai"      "juni"
-              "juli"    "august"   "september" "oktober" "november" "desember"])))
+;; Alter some calendar settings:
+(setq calendar-week-start-day 1)        ; måndag som første dag i veka
+(calendar-set-date-style 'european)     ; day/month/year
+(setq calendar-date-display-form        ; «ons. 2. mai 2012»
+      '((if dayname
+            (concat dayname ", "))
+        day ". " monthname " " year))
+(setq calendar-time-display-form        ; 24-timars, ingen tidssone
+      '(24-hours ":" minutes))
+(setq calendar-day-name-array
+      ["søndag" "måndag" "tysdag" "onsdag" "torsdag" "fredag" "laurdag"])
+(setq calendar-month-name-array
+      ["januar" "februar" "mars"     "april"   "mai"      "juni"
+       "juli"    "august"   "september" "oktober" "november" "desember"])
 
-  (eval-after-load 'solar
-    '(setq solar-n-hemi-seasons
-	   '("Vårjamdøgn" "Sommarsolkverv"
-	     "Haustjamdøgn" "Vintersolkverv")))
+(setq solar-n-hemi-seasons
+      '("Vårjamdøgn" "Sommarsolkverv"
+        "Haustjamdøgn" "Vintersolkverv"))
 
-  (defadvice lunar-phase-name (around sv-lunar-phase-name activate)
-    "Månefasenamn på norsk."
-    (setq ad-return-value
-	  (let ((phase (ad-get-arg 0)))
-	    (cond ((= 0 phase) "Nymåne")
-		  ((= 1 phase) "Månen i ny")
-		  ((= 2 phase) "Fullmåne")
-		  ((= 3 phase) "Månen i ne")))))
+(defadvice lunar-phase-name (around sv-lunar-phase-name activate)
+  "Månefasenamn på norsk."
+  (setq ad-return-value
+        (let ((phase (ad-get-arg 0)))
+          (cond ((= 0 phase) "Nymåne")
+                ((= 1 phase) "Månen i ny")
+                ((= 2 phase) "Fullmåne")
+                ((= 3 phase) "Månen i ne")))))
 
-  (defadvice solar-sunrise-sunset-string (around sv-solar-sunrise-sunset-string
-						 activate)
-    "Soloppgang og solnedgang på norsk."
-    (setq ad-return-value
-	  (let ((l (solar-sunrise-sunset date)))
-	    (format
-	     "%s, %s ved %s (%s timar dagslys)"
-	     (if (car l)
-		 (concat "Sol opp " (apply 'solar-time-string (car l)))
-	       "Ingen soloppgang")
-	     (if (car (cdr l))
-		 (concat "ned " (apply 'solar-time-string (car (cdr l))))
-	       "ingen solnedgang")
-	     (eval calendar-location-name)
-	     (car (cdr (cdr l))))))))
+(defadvice solar-sunrise-sunset-string (around sv-solar-sunrise-sunset-string
+                                               activate)
+  "Soloppgang og solnedgang på norsk."
+  (setq ad-return-value
+        (let ((l (solar-sunrise-sunset date)))
+          (format
+           "%s, %s ved %s (%s timar dagslys)"
+           (if (car l)
+               (concat "Sol opp " (apply 'solar-time-string (car l)))
+             "Ingen soloppgang")
+           (if (car (cdr l))
+               (concat "ned " (apply 'solar-time-string (car (cdr l))))
+             "ingen solnedgang")
+           (eval calendar-location-name)
+           (car (cdr (cdr l)))))))
 
+
+;; Helper:
 (defun calendar-norway-calculate-easter (year)
   "Calculate the date for Easter in YEAR."
   (let* ((century (1+ (/ year 100)))
@@ -124,9 +120,9 @@ to Norwegian."
 (defvar calendar-norway-raude-dagar
       '((holiday-fixed 1 1 "Nyttårsdag")
 
-	;; Jul
-	(holiday-fixed 12 25 "Førstedag jul")
-	(holiday-fixed 12 26 "Annandag jul")
+        ;; Jul
+        (holiday-fixed 12 25 "Førstedag jul")
+        (holiday-fixed 12 26 "Annandag jul")
 
         ;; Påske og pinse
         (holiday-filter-visible-calendar
@@ -136,7 +132,7 @@ to Norwegian."
                    (+ (calendar-norway-calculate-easter displayed-year) (car dag)))
                   (cadr dag)))
           '((  -3 "Skjærtorsdag")
-	    (  -2 "Langfredag")
+            (  -2 "Langfredag")
             (  -1 "Påskeaftan")
             (   0 "Påskedagen")
             (  +1 "Annandag påske")
@@ -144,8 +140,8 @@ to Norwegian."
             ( +49 "Førstedag pinse")
             ( +50 "Annandag pinse"))))
 
-	(holiday-fixed 5 1 "Internasjonal arbeidardag")
-	(holiday-fixed 5 17 "Grunnlovsdagen")
+        (holiday-fixed 5 1 "Internasjonal arbeidardag")
+        (holiday-fixed 5 17 "Grunnlovsdagen")
 
         (let ((midsommar-d (calendar-dayname-on-or-before
                             6 (calendar-absolute-from-gregorian
@@ -169,47 +165,47 @@ to Norwegian."
             (list (calendar-gregorian-from-absolute
                    (+ (calendar-norway-calculate-easter displayed-year) (car dag)))
                   (cadr dag)))
-	  '(( -3 "Skjærtorsdag"))))
+          '(( -3 "Skjærtorsdag"))))
 
         (holiday-fixed 12 31 "Nyttårsaftan")
-	(holiday-fixed 2 14 "Valentinsdag")
-	(holiday-fixed 3 8 "Internasjonale kvinnedagen")
-	(holiday-fixed 4 1 "Første april")
+        (holiday-fixed 2 14 "Valentinsdag")
+        (holiday-fixed 3 8 "Internasjonale kvinnedagen")
+        (holiday-fixed 4 1 "Første april")
 
-	(holiday-float 2 0 2 "Morsdag")
-	(holiday-float 11 0 2 "Farsdag")
+        (holiday-float 2 0 2 "Morsdag")
+        (holiday-float 11 0 2 "Farsdag")
 
-	(holiday-fixed 5 8 "Frigjeringsdagen")
+        (holiday-fixed 5 8 "Frigjeringsdagen")
 
-	(holiday-fixed 6 23 "Sankthansaftan (jonsokaftan)")
-	(holiday-fixed 7 29 "Olsok")
+        (holiday-fixed 6 23 "Sankthansaftan (jonsokaftan)")
+        (holiday-fixed 7 29 "Olsok")
 
         (holiday-fixed 10 24 "FN-dagen")
 
         (holiday-fixed 12 13 "Luciadagen")
-	(holiday-fixed 12 24 "Julaftan")
-	)
+        (holiday-fixed 12 24 "Julaftan")
+        )
       "Høgtider som ikkje er raude kalenderdagar i Noreg.")
 
 (defvar calendar-norway-dst
   '((when (and (require 'cal-dst nil 'noerror)
-	       (require 'solar nil 'noerror))
+               (require 'solar nil 'noerror))
       (funcall 'holiday-sexp
-	       calendar-daylight-savings-starts
-	       '(format "Sommartid byrjar %s"
-			(if (fboundp 'atan)
-			    (solar-time-string (/ calendar-daylight-savings-starts-time
-						  (float 60))
-					       calendar-standard-time-zone-name)
-			  "")))
+               calendar-daylight-savings-starts
+               '(format "Sommartid byrjar %s"
+                        (if (fboundp 'atan)
+                            (solar-time-string (/ calendar-daylight-savings-starts-time
+                                                  (float 60))
+                                               calendar-standard-time-zone-name)
+                          "")))
       (funcall 'holiday-sexp
-	       calendar-daylight-savings-ends
-	       '(format "Vintertid byrjar %s"
-			(if (fboundp 'atan)
-			    (solar-time-string (/ calendar-daylight-savings-ends-time
-						  (float 60))
-					       calendar-daylight-time-zone-name)
-			  "")))))
+               calendar-daylight-savings-ends
+               '(format "Vintertid byrjar %s"
+                        (if (fboundp 'atan)
+                            (solar-time-string (/ calendar-daylight-savings-ends-time
+                                                  (float 60))
+                                               calendar-daylight-time-zone-name)
+                          "")))))
   "Solar equinoxes and Daylight Saving Time localised to Norwegian.")
 
 
