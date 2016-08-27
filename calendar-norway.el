@@ -1,4 +1,4 @@
-;;; calendar-norway.el --- Norwegian calendar for Emacs
+;;; calendar-norway.el --- Norwegian calendar
 
 ;; Copyright (C) 2012-2016 Kevin Brubeck Unhammer
 
