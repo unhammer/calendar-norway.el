@@ -141,20 +141,7 @@
             ( +50 "Annandag pinse"))))
 
         (holiday-fixed 5 1 "Internasjonal arbeidardag")
-        (holiday-fixed 5 17 "Grunnlovsdagen")
-
-        (let ((midsommar-d (calendar-dayname-on-or-before
-                            6 (calendar-absolute-from-gregorian
-                               (list 6 26 displayed-year)))))
-          ;; Midsommar
-          (holiday-filter-visible-calendar
-          (list
-           (list
-            (calendar-gregorian-from-absolute (1- midsommar-d))
-            "Midtsommaraftan")
-           (list
-            (calendar-gregorian-from-absolute midsommar-d)
-            "Midtsommardagen")))))
+        (holiday-fixed 5 17 "Grunnlovsdagen"))
       "Raude kalenderdagar i Noreg.")
 
 (defvar calendar-norway-andre-merkedagar
@@ -184,6 +171,19 @@
 
         (holiday-fixed 12 13 "Luciadagen")
         (holiday-fixed 12 24 "Julaftan")
+
+        (let ((midsommar-d (calendar-dayname-on-or-before
+                            6 (calendar-absolute-from-gregorian
+                               (list 6 26 displayed-year)))))
+          ;; Midsommar
+          (holiday-filter-visible-calendar
+          (list
+           (list
+            (calendar-gregorian-from-absolute (1- midsommar-d))
+            "Midtsommaraftan")
+           (list
+            (calendar-gregorian-from-absolute midsommar-d)
+            "Midtsommardagen"))))
         )
       "Høgtider som ikkje er raude kalenderdagar i Noreg.")
 
