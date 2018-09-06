@@ -1,9 +1,9 @@
 ;;; calendar-norway.el --- Norwegian calendar
 
-;; Copyright (C) 2012-2016 Kevin Brubeck Unhammer
+;; Copyright (C) 2012-2018 Kevin Brubeck Unhammer
 
 ;; Author: Kevin Brubeck Unhammer <unhammer@fsfe.org>
-;; Version: 0.9.3
+;; Version: 0.9.4
 ;; Keywords: calendar norwegian localization
 
 ;; Based on http://bigwalter.net/daniel/elisp/sv-kalender.el v.1.8
