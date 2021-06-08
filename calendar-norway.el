@@ -1,9 +1,10 @@
 ;;; calendar-norway.el --- Norwegian calendar
 
-;; Copyright (C) 2012-2018 Kevin Brubeck Unhammer
+;; Copyright (C) 2012-2021 Kevin Brubeck Unhammer
 
 ;; Author: Kevin Brubeck Unhammer <unhammer@fsfe.org>
-;; Version: 0.9.4
+;; Version: 0.9.5
+;; Package-Version: 0.9.5
 ;; Keywords: calendar norwegian localization
 
 ;; Based on http://bigwalter.net/daniel/elisp/sv-kalender.el v.1.8
@@ -63,9 +64,12 @@
       '(24-hours ":" minutes))
 (setq calendar-day-name-array
       ["søndag" "måndag" "tysdag" "onsdag" "torsdag" "fredag" "laurdag"])
+(setq calendar-day-header-array
+      ["sø" "må" "ty" "on" "to" "fr" "la"])
 (setq calendar-month-name-array
       ["januar" "februar" "mars"     "april"   "mai"      "juni"
        "juli"    "august"   "september" "oktober" "november" "desember"])
+
 
 (setq solar-n-hemi-seasons
       '("Vårjamdøgn" "Sommarsolkverv"
