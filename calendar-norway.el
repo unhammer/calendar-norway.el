@@ -162,6 +162,8 @@
         (holiday-fixed 2 14 "Valentinsdag")
         (holiday-fixed 3 8 "Internasjonale kvinnedagen")
         (holiday-fixed 4 1 "Første april")
+        ;; https://nn.wikipedia.org/wiki/Samefolkets_dag
+        (holiday-fixed 2 6 "Samefolkets dag")
 
         (holiday-float 2 0 2 "Morsdag")
         (holiday-float 11 0 2 "Farsdag")
